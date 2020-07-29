@@ -53,6 +53,7 @@ $(function () {
     jeDate("#testico", {
         format: "YYYY-MM-DD",
         isTime: false,
+        zIndex: 2090009,
         onClose: false, //        //是否为选中日期后关闭弹层，为false时选中日期后关闭弹层
     });
 
@@ -61,6 +62,61 @@ $(function () {
     var editor = new E('#editor')
     // 或者 var editor = new E( document.getElementById('editor') )
     editor.create()
+
+    // 给form表单注册事件，通过两个按钮来触发‘发布’‘存为草稿’
+    // 如果单击的是‘发布’按钮，则当前的文章应该是一个‘发布’的状态 ‘发布’状态的文章在前台可以被所有人的查看
+    // 如果单击的是‘存为草稿’按钮 则当前添加的文章数据是一个‘草稿’的状态
+
+    // 5.1给form表单注册事件 submit click
+    $('#form').on('click', '.btn', function (e) {
+        // 5.2阻止默认行为
+        e.preventDefault();
+        // 5.3获取要发送给服务器的数据
+        var data = new FormData($('#form')[0]);
+        // 将文章内容追加到data中去
+        data.append('content', editor.txt.html());
+
+        // 5.4？文章状态，可以通过判断单击的是哪个按钮来判断文章的状态
+        if ($(this).hasClass('btn-release')) {
+            data.append('state', '已发布')
+        } else {
+            data.append('state', '草稿')
+        }
+
+        // 5.5发送ajax请求
+        $.ajax({
+            type: 'post',
+            url: BigNew.article_publish,
+            data: data,
+            processData: false,
+            contentType: false,
+            success: function (info) {
+                console.log(info);
+                // 5.6发布成功之后跳转到文章列表页面
+                if (info.code == 200) {
+                    window.location.href = './article_list.html'
+                    // window.history.back()   
+                    // 同时左侧按钮应该对应高亮
+                    parent.$('.menu .level02 li:eq(0)').click();
+                }
+            }
+        })
+
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
