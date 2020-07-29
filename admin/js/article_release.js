@@ -46,16 +46,21 @@ $(function () {
         // $('.article_cover').attr('src',url);
 
         // 简写：
-        $('.article_cover').attr('src',URL.createObjectURL(this.files[0]))
+        $('.article_cover').attr('src', URL.createObjectURL(this.files[0]))
     });
 
-    jeDate("#testico",{
-        format:"YYYY-MM-DD",
-        isTime:false,
-        minDate:"2014-09-19 00:00:00"
-    })
-  
+    // 启用日期插件
+    jeDate("#testico", {
+        format: "YYYY-MM-DD",
+        isTime: false,
+        onClose: false, //        //是否为选中日期后关闭弹层，为false时选中日期后关闭弹层
+    });
 
+    // 启用富文本插件
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    // 或者 var editor = new E( document.getElementById('editor') )
+    editor.create()
 
 
 
