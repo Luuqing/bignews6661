@@ -135,11 +135,11 @@ $(function () {
             },
             success: function (res) {
                 console.log(res);
+
                 if (res.code == 204) {
                     // 如果删除成功，隐藏模态框
                     $('#delmodal').modal('hide');
                     // 删除成功之后要显示当前页面的剩余数据，其实就是和分页功能相同的业务
-
                     $.ajax({
                         url: BigNew.article_query,
                         type: 'get',
@@ -155,14 +155,29 @@ $(function () {
                             if (res.code == 200) {
                                 var htmlStr = template('articlelist', res.data);
                                 $('#tbody').html(htmlStr);
+                                // 如果删除完了最后一页的数据，应该要显示前一页的数据
+                                if (res.data.totalCount != 0 && res.data.data.length == 0) {
+                                    currentPgae -= 1;
+                                    $('#pagination-demo').twbsPagination('changeTotalPages', res.data.totalPage, currentPgae)
+                                } else if (res.data.totalCount == 0) {
+                                    $('#pagination-demo').hide().next().show();
+                                }
                             }
                         }
                     });
-                }
+                };
+
             }
         })
     });
-    // 5-删除成功后要显示当前页码的剩余数据
+
+    // 单击发布按钮，跳转到发布文章页面，并让左侧响应按钮高亮
+    // 1-给发表文章按钮注册点击事件
+    // 2-触发左侧按钮的点击事件
+    $('#release_btn').on('click', function () {
+        // 点击触发左侧按钮高亮
+        parent.$('.menu .level02 li:eq(1)').click();
+    })
 
 
 
