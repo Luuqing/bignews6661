@@ -10,10 +10,18 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="css/main.css">
+    <!-- 日期控件 -->
+
+    <link rel="stylesheet" href="./libs/jedate/test/jeDate-test.css">
+    <link rel="stylesheet" href="./libs/jedate/skin/jedate.css">
+    <script src="./libs/jedate/dist/jedate.min.js"></script>
+    <!-- 引入富文本编辑器 -->
+    <script src="./libs/wangEditor/wangEditor.min.js"></script>
     <!-- jq -->
     <script src="./libs/jquery-1.12.4.min.js"></script>
     <!-- 模板引擎 -->
     <script src="./libs/template-web.js"></script>
+    <script src="./js/utils.js"></script>
 </head>
 
 <body>
@@ -39,23 +47,39 @@
                 <div class="form-group">
                     <label for="inputCategory" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select class="form-control category" name="categoryId">
-                            <option>类别一</option>
+                        <select class="form-control category" id="categoryId"  name="categoryId">
+                            <!-- <option>类别一</option>
                             <option>类别二</option>
                             <option>类别三</option>
                             <option selected>类别四</option>
-                            <option>类别五</option>
+                            <option>类别五</option> -->
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">发布时间：</label>
                     <div class="col-sm-4">
+                        <!-- 日期插件 -->
+                        <div class="jeitem">
+                            <div class="jeinpbox">
+                                <input type="text" name='date' class="jeinput" id="testico" placeholder="YYYY-MM-DD">
+                                <div class="icons jebtns"
+                                    onclick="jeDate('#testico',{trigger:false,zIndex:2090009,format: 'YYYY-MM-DD', onClose:false})">
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
                     <div class="col-sm-10">
+                        <!-- 富文本编辑器 -->
+                        <div id="editor">
+
+
+                        </div>
+
                     </div>
                 </div>
                 <div class="form-group">
@@ -67,6 +91,14 @@
             </form>
         </div>
     </div>
+
+    <!-- 文章分类模板 -->
+    <script type="text/html" id="tmp">
+        {{ each data v i }}
+        <option value='{{v.id}}'>{{ v.name }}</option>
+        {{ /each }}
+    </script>
+
     <script src="./js/http.js"></script>
     <script src="./js/article_edit.js"></script>
 </body>
