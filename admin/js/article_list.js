@@ -3,9 +3,7 @@
 // 2-默认第一页文字数据的渲染
 // 3-启用分页并实现分页功能
 // 4-删除文章
-
 $(function () {
-
     // 1-文章分类数据的渲染
     // 2-一跳转到这个页面就立即发送ajax请求
     // 3 -
@@ -20,7 +18,6 @@ $(function () {
             }
         }
     });
-
     // 获取文章列表页中的默认第一页数据，渲染页面
     //  发送ajax请求
     $.ajax({
@@ -43,7 +40,6 @@ $(function () {
             }
         }
     });
-
     // 启用分页功能
     // 分页插件的代码比较多，可以封装分页器
     var currentPgae = 1;
@@ -158,8 +154,12 @@ $(function () {
                                 // 如果删除完了最后一页的数据，应该要显示前一页的数据
                                 if (res.data.totalCount != 0 && res.data.data.length == 0) {
                                     currentPgae -= 1;
+
+                                    //页面重绘
                                     $('#pagination-demo').twbsPagination('changeTotalPages', res.data.totalPage, currentPgae)
                                 } else if (res.data.totalCount == 0) {
+
+
                                     $('#pagination-demo').hide().next().show();
                                 }
                             }

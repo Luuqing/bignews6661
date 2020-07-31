@@ -96,7 +96,7 @@ $(function () {
         data.append('content', editor.txt.html());
         //文章状态，通过判断单击的是哪个按钮来判断文章当王主管哪条
         console.log(data);
-        if ($(this).hasClass('btn-release')) {
+        if ($(this).hasClass('btn-edit')) {
             data.append('state', '已发布')
         } else {
             data.append('state', '草稿')
