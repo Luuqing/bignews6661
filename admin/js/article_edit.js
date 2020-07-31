@@ -21,19 +21,19 @@ $(function () {
     });
 
 
-      // 启用日期插件
-      jeDate("#testico", {
+    // 启用日期插件
+    jeDate("#testico", {
         format: "YYYY-MM-DD",
         isTime: false,
         zIndex: 2090009,
         onClose: false, //        //是否为选中日期后关闭弹层，为false时选中日期后关闭弹层
     });
 
-      // 启用富文本插件
-      var E = window.wangEditor
-      var editor = new E('#editor')
-      // 或者 var editor = new E( document.getElementById('editor') )
-      editor.create()
+    // 启用富文本插件
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    // 或者 var editor = new E( document.getElementById('editor') )
+    editor.create()
 
     // 第一种写法：
     // 1-获取传过来的Id，根据id 渲染页面
@@ -59,15 +59,17 @@ $(function () {
         success: function (res) {
             console.log(res);
             if (res.code == 200) {
+                // 通过隐藏域设置上id
+                $('#form input[name=id]').val(res.data.id)
                 $('#form  input[name=title]').val(res.data.title);
-                $('#form .article_cover').attr('src',res.data.cover);
+                $('#form .article_cover').attr('src', res.data.cover);
                 $('#form #categoryId').val(res.data.categoryId)
             }
         }
     });
 
 
-     // 1-实现待上传图片的本地预览
+    // 1-实现待上传图片的本地预览
     // 2-给上传文章按钮注册事件
     $('#inputCover').change(function () {
         // 1-获取用户选择的图片
@@ -81,6 +83,52 @@ $(function () {
         // 简写：
         $('.article_cover').attr('src', URL.createObjectURL(this.files[0]))
     });
+
+    // 文章更新
+    // 给form表单注册单击事件，用事件委托注册
+    // 通过子按钮‘修改’‘存为草稿’来触发
+    // 注意要将富文本编辑器的数据添加上
+    // 判断一下单击的是哪个按钮‘修改’‘存为草稿’
+    // 更新完成跳转到文章列表页
+
+    $('form').on('click', '.btn', function (e) {
+        //阻止表单的默认行为
+        e.preventDefault();
+        // 获取页面中表单的数据
+        var data = new FormData($('form')[0]);
+        // 将文章内容追加到data中去
+        data.append('content', editor.txt.html());
+        //文章状态，通过判断单击的是哪个按钮来判断文章当王主管哪条
+        console.log(data);
+        if ($(this).hasClass('btn-release')) {
+            data.append('state', '已发布')
+        } else {
+            data.append('state', '草稿')
+        };
+
+        // 发送ajax请求
+        $.ajax({
+            url: BigNew.article_edit,
+            type: 'post',
+            data:data,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                console.log(res);
+                if(res.code == 200){
+                    window.location.href = './article_list.html'
+                }
+            }
+
+        })
+
+
+
+    })
+
+
+
+
 
 
 
