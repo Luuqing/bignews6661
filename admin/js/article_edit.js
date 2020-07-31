@@ -67,8 +67,6 @@ $(function () {
             }
         }
     });
-
-
     // 1-实现待上传图片的本地预览
     // 2-给上传文章按钮注册事件
     $('#inputCover').change(function () {
@@ -79,11 +77,9 @@ $(function () {
         // console.log(url);
         // // 3-将url路径赋值给img标签的src
         // $('.article_cover').attr('src',url);
-
         // 简写：
         $('.article_cover').attr('src', URL.createObjectURL(this.files[0]))
     });
-
     // 文章更新
     // 给form表单注册单击事件，用事件委托注册
     // 通过子按钮‘修改’‘存为草稿’来触发
@@ -105,7 +101,6 @@ $(function () {
         } else {
             data.append('state', '草稿')
         };
-
         // 发送ajax请求
         $.ajax({
             url: BigNew.article_edit,
@@ -119,17 +114,6 @@ $(function () {
                     window.location.href = './article_list.html'
                 }
             }
-
         })
-
-
-
     })
-
-
-
-
-
-
-
 })
