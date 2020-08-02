@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="js/jquery.pagination.min.js"></script>
+    <script src="./lib/utils.js"></script>
 </head>
 
 <body>
@@ -225,9 +226,26 @@
         <p>CopyRight © 2019 深圳大事件信息技术股份有限公司 All Rights Reserved</p>
         <p>电话：0755-****888 粤ICP备*******8号</p>
     </div>
+
+    <script type='text/html' id='tmp'>
+        {{each data v i }}
+        <div class="common_news_list">
+            <a href="./article.html?id={{ v.id }}" class="list_pic"><img src="{{ v.cover }}" alt=""></a>
+            <h4><a href="./article.html?id={{ v.id }}">{{ v.title }}</a></h4>
+            <p>{{ v.content }}
+            </p>
+            <div class="new_info">
+                <span>标签：{{ v.category }} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-eye"></i>&nbsp;阅读( {{ v.read }}
+                    )&nbsp;&nbsp;&nbsp;<i class="fa fa-commenting"></i>&nbsp;评论( {{ v.comments }} )</span>
+                <b>发布于 {{ v.date }}</b>
+            </div>
+        </div>
+        {{ /each }}
+    </script>
     <!-- 导包template -->
     <script src="./js/template-web.js"></script>
     <script src="./lib/http.js"></script>
+    <script src="./lib/list.js"></script>
 </body>
 
 </html>
